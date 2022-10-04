@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Frontend\Auth\AuthController;
+use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\Frontend\UserProfileController;
+use App\Http\Controllers\PersonalAccountTransactinController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +18,27 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    // return view('welcome');
+    return redirect()->route('LoginView');
+});
+Route::get('/register', function () {
+    return redirect()->route('LoginView');
+});
+
+Route::get('/login', [AuthController::class, 'LoginView'])->name('LoginView');
+Route::post('/login', [AuthController::class, 'LoginPost'])->name('LoginPost');
+Route::post('/register', [AuthController::class, 'RegisterPost'])->name('RegisterPost');
+
+Route::get('/code', [AuthController::class, 'AuthCodeVerify'])->name('AuthCodeVerify');
+Route::post('/code', [AuthController::class, 'AuthCodeVerifyPost'])->name('AuthCodeVerifyPost');
+
+Route::middleware('auth:web', 'authremember')->group(function () {
+
+    Route::get('/add-money', [PersonalAccountTransactinController::class, 'AddMoney'])->name('AddMoney');
+
+    Route::get('/dashboard', [FrontendController::class, 'DashboardView'])->name('DashboardView');
+
+    Route::get('/profile', [UserProfileController::class, 'ProfileView'])->name('ProfileView');
+
+    Route::post('/logout', [AuthController::class, 'Logout'])->name('Logout');
 });

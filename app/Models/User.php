@@ -20,6 +20,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'account_id',
+        'pin',
         'password',
     ];
 
@@ -41,4 +43,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function account()
+    {
+        return $this->belongsTo(AccountType::class, 'account_id');
+    }
+
+    public function session()
+    {
+        return $this->hasMany(Session::class, 'user_id');
+    }
 }

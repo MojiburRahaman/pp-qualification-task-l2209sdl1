@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Session extends Model
 {
     use HasFactory;
+
     protected $table = "sessions";
-
-
+    protected $casts = ["last_activity" => "datetime"];
+    
     function User()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -19,18 +21,21 @@ class Session extends Model
 
     function GetDevice($user_agent)
     {
-
+        $mobile_agents = '!(tablet|pad|mobile|phone|symbian|android|ipod|ios|blackberry|webos)!i';
+        if (preg_match($mobile_agents, $user_agent)) {
+            $platform = 'Phone';
+        }
         if (preg_match('/linux/i', $user_agent)) {
-            $platform = 'linux';
+            $platform = 'Linux';
         } elseif (preg_match('/macintosh|mac os x/i', $user_agent)) {
-            $platform = 'mac';
+            $platform = 'Mac';
         } elseif (preg_match('/windows|win32/i', $user_agent)) {
-            $platform = 'windows';
+            $platform = 'Windows';
         }
 
         return $platform;
     }
-    
+
     function GetBrowser($user_agent)
     {
 
