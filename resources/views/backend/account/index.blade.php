@@ -90,6 +90,13 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
+                                <label for="transfer_limit_monthly">Transfer Limit Monthly (Max)</label>
+                                <input type="number" id="transfer_limit_monthly" name="transfer_limit_monthly"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
                                 <label for="tranfer_monthly_max">Transfer Amount Monthly (Max)</label>
                                 <input type="number" id="tranfer_monthly_max" name="tranfer_monthly_max"
                                     class="form-control">
@@ -99,6 +106,41 @@
                             <div class="form-group">
                                 <label for="tranfer_daily_max">Transfer Amount Daily (Max)</label>
                                 <input type="number" id="tranfer_daily_max" name="tranfer_daily_max"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="monthly_cashout_transaction_limit">CashOut Transaction Limit Monthly (Max)</label>
+                                <input type="number" id="monthly_cashout_transaction_limit" name="monthly_cashout_transaction_limit"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="min_cashout_amount_per_transaction">Cashout Amount Per Transaction (Min)</label>
+                                <input type="number" id="min_cashout_amount_per_transaction" name="min_cashout_amount_per_transaction"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="max_cashout_amount_per_transaction">Cashout Amount Per Transaction (Max)</label>
+                                <input type="number" id="max_cashout_amount_per_transaction" name="max_cashout_amount_per_transaction"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="per_day_cashout_amount_limit">Cashout Amount Per Day (Max)</label>
+                                <input type="number" id="per_day_cashout_amount_limit" name="per_day_cashout_amount_limit"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="per_month_cashout_amount_limit">Cashout Amount Per Month (Max)</label>
+                                <input type="number" id="per_month_cashout_amount_limit" name="per_month_cashout_amount_limit"
                                     class="form-control">
                             </div>
                         </div>
@@ -125,31 +167,6 @@
     </div>
 </div>
 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    {{-- <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <h4>
-                    Name : wskafnc
-                </h4>
-                <p>Add Money Limit : add_money_limit</p>
-                <p>Per Day Money Limit : add_money_limit</p>
-                <p>Per Day add Limit : add_money_limit</p>
-                <p>Monthly Add Limit : add_money_limit</p>
-                <p>Transfer Monthly Max amount: add_money_limit</p>
-                <p>Transfer Daily Max amount: add_money_limit</p>
-                <p>Cashout: add_money_limit</p>
-                <p>Comission: add_money_limit</p>
-            </div>
-        </div>
-    </div> --}}
-
 
 </div>
 

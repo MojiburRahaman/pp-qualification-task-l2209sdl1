@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Frontend\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\AccountType;
+use App\Models\PersonalLimit;
 use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -37,6 +39,31 @@ class AuthController extends Controller
             'pin' => bcrypt($request->pin),
             'password' => bcrypt($request->password),
         ]);
+
+        $wallet = new Wallet;
+        $wallet->user_id = $user->id;
+        $wallet->save();
+
+
+        if ($request->account_type_id == 2) {
+
+            $account = AccountType::findorfail($request->account_type_id);
+
+            $personal = new PersonalLimit;
+            $personal->user_id =  $user->id;
+            $personal->add_money_limit = $account->add_money_limit;
+            $personal->per_day_money_limit = $account->per_day_money_limit;
+            $personal->monthly_limit = $account->monthly_limit;
+            $personal->transfer_limit_monthly = $account->transfer_limit_monthly;
+            $personal->tranfer_monthly_max = $account->tranfer_monthly_max;
+            $personal->tranfer_daily_max = $account->tranfer_daily_max;
+            $personal->monthly_cashout_transaction_limit = $account->monthly_cashout_transaction_limit;
+            $personal->per_day_cashout_amount_limit = $account->per_day_cashout_amount_limit;
+            $personal->per_month_cashout_amount_limit = $account->per_month_cashout_amount_limit;
+            $personal->save();
+        }
+
+
 
         return response()->json('Registerd Successfully');
     }

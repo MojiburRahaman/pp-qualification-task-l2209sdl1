@@ -46,7 +46,7 @@ class AdminAuthController extends Controller
 
         if (Auth::guard('admin')->attempt($request->only('email', 'password'))) {
             # code...
-            return redirect()->route('DashboardView');
+            return redirect()->route('BackendDashboardView');
         }
     }
     function AdminLogOut(Request $request)

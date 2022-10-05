@@ -9,7 +9,7 @@
     <!-- Default Card Example -->
     <div class="card mb-4">
         <div class="card-header">
-            Add Money
+            Send Money
         </div>
         <div class="card-body"> 
             @if (session()->get('error'))
@@ -18,8 +18,15 @@
                 {{session()->get('error')}}
             </div>
             @endif
-            <form action="{{ route('AddMoneyPost') }}" method="POST">
+            <form action="{{ route('SendMoneyPost') }}" method="POST">
                 @csrf
+                <div class="form-group">
+                    <label for="email">User Email</label>
+                    <input type="email" name="email" class="form-control" id="email">
+                    @error('email')
+                        {{ $message }}
+                    @enderror
+                </div>
                 <div class="form-group">
                     <label for="amount">Amount</label>
                     <input type="number" name="amount" class="form-control" id="amount">

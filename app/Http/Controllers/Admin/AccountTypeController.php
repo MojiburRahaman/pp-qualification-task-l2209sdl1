@@ -54,7 +54,13 @@ class AccountTypeController extends Controller
         $account->per_day_money_limit = $request->per_day_money_limit;
         $account->monthly_limit = $request->monthly_limit;
         $account->tranfer_monthly_max = $request->tranfer_monthly_max;
+        $account->transfer_limit_monthly = $request->transfer_limit_monthly;
         $account->tranfer_daily_max = $request->tranfer_daily_max;
+        $account->monthly_cashout_transaction_limit = $request->monthly_cashout_transaction_limit;
+        $account->min_cashout_amount_per_transaction = $request->min_cashout_amount_per_transaction;
+        $account->max_cashout_amount_per_transaction = $request->max_cashout_amount_per_transaction;
+        $account->per_day_cashout_amount_limit = $request->per_day_cashout_amount_limit;
+        $account->per_month_cashout_amount_limit = $request->per_month_cashout_amount_limit;
         $account->cashout = $request->cashout;
         $account->commision = $request->commision;
         $account->save();
@@ -109,8 +115,14 @@ class AccountTypeController extends Controller
         $account->add_money_limit = $request->add_money_limit;
         $account->per_day_money_limit = $request->per_day_money_limit;
         $account->monthly_limit = $request->monthly_limit;
+        $account->transfer_limit_monthly = $request->transfer_limit_monthly;
         $account->tranfer_monthly_max = $request->tranfer_monthly_max;
         $account->tranfer_daily_max = $request->tranfer_daily_max;
+        $account->monthly_cashout_transaction_limit = $request->monthly_cashout_transaction_limit;
+        $account->min_cashout_amount_per_transaction = $request->min_cashout_amount_per_transaction;
+        $account->max_cashout_amount_per_transaction = $request->max_cashout_amount_per_transaction;
+        $account->per_day_cashout_amount_limit = $request->per_day_cashout_amount_limit;
+        $account->per_month_cashout_amount_limit = $request->per_month_cashout_amount_limit;
         $account->cashout = $request->cashout;
         $account->commision = $request->commision;
         $account->save();

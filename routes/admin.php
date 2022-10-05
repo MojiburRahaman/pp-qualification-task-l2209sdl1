@@ -17,7 +17,7 @@ Route::middleware('guest:admin')->group(function () {
 Route::middleware('auth:admin')->group(function () {
     Route::post('logout', [AdminAuthController::class, 'AdminLogOut'])->name('AdminLogOut');
     
-    Route::get('dashboard', [DashboardController::class, 'DashboardView'])->name('DashboardView');
+    Route::get('dashboard', [DashboardController::class, 'DashboardView'])->name('BackendDashboardView');
 
     Route::resource('accounttype', AccountTypeController::class);
 });

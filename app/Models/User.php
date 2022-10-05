@@ -53,4 +53,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Session::class, 'user_id');
     }
+    public function PersonalLimit()
+    {
+        return $this->hasOne(PersonalLimit::class, 'user_id');
+    }
+    public function Wallet()
+    {
+        return $this->hasOne(Wallet::class, 'user_id');
+    }
 }

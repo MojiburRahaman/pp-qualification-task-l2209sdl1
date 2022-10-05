@@ -44,8 +44,8 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item  {{ (url()->current() == route('DashboardView')) ? 'active' : ''  }}">
-                <a class="nav-link" href="{{ route('DashboardView') }}">
+            <li class="nav-item  {{ (url()->current() == route('BackendDashboardView')) ? 'active' : ''  }}">
+                <a class="nav-link" href="{{ route('BackendDashboardView') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>

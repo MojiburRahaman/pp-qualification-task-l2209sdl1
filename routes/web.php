@@ -18,12 +18,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    // return view('welcome');
-    return redirect()->route('LoginView');
+    return view('welcome');
+    // return redirect()->route('LoginView');
 });
 Route::get('/register', function () {
     return redirect()->route('LoginView');
-});
+})->name('RegisterView');
 
 Route::get('/login', [AuthController::class, 'LoginView'])->name('LoginView');
 Route::post('/login', [AuthController::class, 'LoginPost'])->name('LoginPost');
@@ -35,8 +35,14 @@ Route::post('/code', [AuthController::class, 'AuthCodeVerifyPost'])->name('AuthC
 Route::middleware('auth:web', 'authremember')->group(function () {
 
     Route::get('/add-money', [PersonalAccountTransactinController::class, 'AddMoney'])->name('AddMoney');
+    Route::post('/add-money', [PersonalAccountTransactinController::class, 'AddMoneyPost'])->name('AddMoneyPost');
+
+    Route::get('/send-money', [PersonalAccountTransactinController::class, 'SendMoneyView'])->name('SendMoneyView');
+    Route::post('/send-money', [PersonalAccountTransactinController::class, 'SendMoneyPost'])->name('SendMoneyPost');
+
 
     Route::get('/dashboard', [FrontendController::class, 'DashboardView'])->name('DashboardView');
+    Route::get('/transaction', [FrontendController::class, 'TransactionView'])->name('TransactionView');
 
     Route::get('/profile', [UserProfileController::class, 'ProfileView'])->name('ProfileView');
 
