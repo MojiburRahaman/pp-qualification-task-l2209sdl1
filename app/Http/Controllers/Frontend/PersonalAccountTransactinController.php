@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Frontend;
+use App\Http\Controllers\Controller;
 
 use App\Models\AccountType;
 use App\Models\ChargeAmount;
@@ -13,6 +14,7 @@ use Illuminate\Http\Request;
 
 class PersonalAccountTransactinController extends Controller
 {
+
     function AddMoney()
     {
         return view('Frontend.pages.add-money');

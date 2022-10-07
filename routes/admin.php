@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\AccountTypeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AccountTypeController;
 use App\Http\Controllers\Admin\Auth\AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController;
 
@@ -18,6 +18,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::post('logout', [AdminAuthController::class, 'AdminLogOut'])->name('AdminLogOut');
     
     Route::get('dashboard', [DashboardController::class, 'DashboardView'])->name('BackendDashboardView');
+    Route::get('transactions', [DashboardController::class, 'AllTranaction'])->name('AllTranaction');
 
     Route::resource('accounttype', AccountTypeController::class);
 });

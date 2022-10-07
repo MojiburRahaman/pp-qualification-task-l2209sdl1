@@ -18,7 +18,7 @@
                 {{session()->get('error')}}
             </div>
             @endif
-            <form action="{{ route('SendMoneyPost') }}" method="POST">
+            <form action="{{ route('CashInPost') }}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label for="email">Personal User Email</label>
