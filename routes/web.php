@@ -17,7 +17,7 @@ Route::get('/register', function () {
     return redirect()->route('login');
 })->name('RegisterView')->middleware('guest:web');
 Route::get('/login', [AuthController::class, 'LoginView'])->name('login')->middleware('guest:web');
-Route::post('/login', [AuthController::class, 'LoginPost'])->name('LoginPost')->middleware('throttle:5,360');
+Route::post('/login', [AuthController::class, 'LoginPost'])->name('LoginPost');
 Route::post('/register', [AuthController::class, 'RegisterPost'])->name('RegisterPost')->middleware('guest:web');
 
 // for code verify route
@@ -52,6 +52,6 @@ Route::middleware('auth:web', 'authremember')->group(function () {
     // for view user profile 
     Route::get('/profile', [UserProfileController::class, 'ProfileView'])->name('ProfileView');
     
-    // for view user logout
+    // for user logout
     Route::post('/logout', [AuthController::class, 'Logout'])->name('Logout');
 });

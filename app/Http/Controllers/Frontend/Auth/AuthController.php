@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 
@@ -17,6 +18,7 @@ class AuthController extends Controller
 
     function LoginView()
     {
+
         $accounts = AccountType::latest()->select('id', 'name')->get();
 
         return view('Frontend.Auth.login', compact('accounts'));
@@ -68,14 +70,25 @@ class AuthController extends Controller
     }
     function LoginPost(Request $request)
     {
+        $cookie = Cookie::get('Failed_attempt');
+        if ($cookie >= 5) {
+            return back()->withError('Failed Attempt You Can Login After 6hours');
+        }
+        if ($cookie !=  null) {
+            Cookie::queue('Failed_attempt', $cookie + 1, 360);
+        } else {
+            Cookie::queue('Failed_attempt', 1, 360);
+        }
+
         $request->validate([
             'email' => ['required',  'email', 'max:255', 'exists:users,email'],
             'password' => ['required', Rules\Password::defaults()],
         ]);
 
+
         $user = User::whereEmail($request->email)->first();
         if ($user->attempt == 0) {
-            return back()->withError('Failed Attempt You Can Login After 6hours');
+            return back()->withError('Failed Attempt The User Can Login After 6hours');
         }
 
         $remember = $request->remember;
@@ -90,6 +103,7 @@ class AuthController extends Controller
 
         $user->attempt = $user->attempt - 1;
         $user->save();
+
 
         if ($user->attempt == 0) {
             return back()->with(['alert' => 'Password Not Match', 'error' => 'Failed Attempt You Can Login After 6hours']);
