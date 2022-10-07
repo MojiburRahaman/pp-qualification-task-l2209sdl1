@@ -1,5 +1,4 @@
 @extends('backend.master')
-
 @section('title','All Transaction')
 @section('content')
 <div class="card shadow mb-4">

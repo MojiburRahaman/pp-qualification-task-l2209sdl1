@@ -3,7 +3,6 @@
 @section('title','Profile')
 @section('content')
 
-
 <!-- Dropdown Card Example -->
 <div class="card shadow mb-4">
     <!-- Card Header - Dropdown -->
