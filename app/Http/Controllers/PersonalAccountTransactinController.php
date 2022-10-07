@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AccountType;
+use App\Models\ChargeAmount;
+use App\Models\Comission;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
@@ -21,7 +24,6 @@ class PersonalAccountTransactinController extends Controller
         $request->validate([
             'amount' => ['required', 'numeric', 'max:9999999'],
         ]);
-
         $user = auth('web')->user();
         $limit = $user->PersonalLimit;
         $transcation_id = rand(555, 999999) . $user->id;
@@ -119,7 +121,7 @@ class PersonalAccountTransactinController extends Controller
         $transaction->transcation_id = $transcation_id;
         $transaction->user_id = $to_user->id;
         $transaction->amount = $request->amount;
-        $transaction->from_or_to_email  = $request->email;
+        $transaction->from_or_to_email  = auth('web')->user()->email;
         $transaction->trans_type = 1;
         $transaction->status = 1;
         $transaction->save();
@@ -130,5 +132,118 @@ class PersonalAccountTransactinController extends Controller
 
 
         return back()->with('success', 'Add Money Successfull');
+    }
+    function CashOutView()
+    {
+        return view('Frontend.pages.cashout');
+    }
+    function CashOutViewpost(Request $request)
+    {
+
+        $request->validate([
+            'email' => ['required', 'email', Rule::exists('users')->where(function ($query) {
+                return $query->where('account_id', 1);
+            }),],
+            'amount' => ['required', 'numeric', 'max:9999999'],
+        ]);
+
+        if ($request->has('nid')) {
+            $request->validate([
+                'nid' => ['required'],
+            ]);
+        }
+
+        $detail = ['nid ' => $request->nid];
+
+        $user = auth('web')->user();
+        $limit = $user->PersonalLimit;
+        $wallet = $user->wallet;
+        $transcation_id = rand(555, 999999) . $user->id;
+
+        $account_type = AccountType::findorfail(2);
+
+        $charge = $account_type->cashout;
+        $amount = $request->amount;
+        $cashout_charge = ($amount * $charge) / 100;
+        $total_amount = $amount + $cashout_charge;
+
+        $agent_commision = AccountType::select('commision', 'id')->findorfail(1);
+        $commision_amount = ($cashout_charge * $agent_commision->commision) / 100;
+
+        if ($limit->per_day_cashout_amount_limit  == 0) {
+            return back()->withError('Daily Cash Out Amount Expired');
+        } elseif ($limit->per_month_cashout_amount_limit  < $request->amount || $limit->per_day_cashout_amount_limit  < $request->amount) {
+            return back()->withError('Amount is over than limit amount');
+        } elseif ($limit->monthly_cashout_transaction_limit  == 0) {
+            return back()->withError('Your Monthly Limit Is Over');
+        } elseif ($wallet->wallet  == 0) {
+            return back()->withError('Your Wallet is empty');
+        } elseif ($wallet->wallet  < $total_amount) {
+            return back()->withError("Currently you don't have enough money");
+        } elseif ($account_type->min_cashout_amount_per_transaction > $request->amount) {
+            return back()->withError("Minimum Cash Out Amount " . $account_type->min_cashout_amount_per_transaction);
+        } elseif ($account_type->max_cashout_amount_per_transaction < $request->amount) {
+            return back()->withError("Max Cash Out Amount " . $account_type->max_cashout_amount_per_transaction);
+        }
+
+
+        $limit->per_month_cashout_amount_limit  = $limit->per_month_cashout_amount_limit  - $request->amount;
+        $limit->per_day_cashout_amount_limit  = $limit->per_day_cashout_amount_limit  - $request->amount;
+        $limit->monthly_cashout_transaction_limit  = $limit->monthly_cashout_transaction_limit  - 1;
+        $limit->save();
+
+        // user transaction
+        $transaction = new Transaction;
+        $transaction->transcation_id = $transcation_id;
+        $transaction->user_id = $user->id;
+        $transaction->from_or_to_email  = $request->email;
+        $transaction->amount = $request->amount;
+        $transaction->trans_type = 3;
+        $transaction->status = 2;
+        if ($request->has('nid')) {
+            $transaction->details = json_encode($detail);
+        }
+        $transaction->save();
+
+        $wallet->wallet = $wallet->wallet - $total_amount;
+        $wallet->save();
+
+
+        // to agent transaction
+        $to_user = User::where(['email' => $request->email, 'account_id' => 1])->first();
+        $transcation_id = rand(9555, 999999) . $to_user->id;
+
+
+        $transaction = new Transaction;
+        $transaction->transcation_id = $transcation_id;
+        $transaction->user_id = $to_user->id;
+        $transaction->amount = $request->amount;
+        $transaction->from_or_to_email  = auth('web')->user()->email;
+        $transaction->trans_type = 3;
+        $transaction->status = 1;
+        if ($request->has('nid')) {
+            $transaction->details = json_encode($detail);
+        }
+        $transaction->save();
+
+        // add amount agent wallet
+        $wallet = $to_user->wallet;
+        $wallet->wallet = $wallet->wallet + $request->amount + $commision_amount;
+        $wallet->save();
+
+        // agent commission
+        $comission = new Comission;
+        $comission->transcation_id = $transcation_id;
+        $comission->commision = $commision_amount;
+        $comission->save();
+
+        // rest of the charge deposite another table
+        $charge = new ChargeAmount;
+        $charge->user_id = auth('web')->id();
+        $charge->transcation_id = $transcation_id;
+        $charge->charge = $cashout_charge - $commision_amount;
+        $charge->save();
+
+        return back()->with('success', 'Cash Out Successfull');
     }
 }

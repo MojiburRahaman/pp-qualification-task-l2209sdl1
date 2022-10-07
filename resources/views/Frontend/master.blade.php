@@ -62,6 +62,11 @@
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Send Money</span></a>
             </li>
+            <li class="nav-item  {{ (url()->current() == route('CashOutView')) ? 'active' : ''  }}">
+                <a class="nav-link" href="{{ route('CashOutView') }}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Cash Out</span></a>
+            </li>
             @endcan
             <li class="nav-item  {{ (url()->current() == route('TransactionView')) ? 'active' : ''  }}">
                 <a class="nav-link" href="{{ route('TransactionView') }}">

@@ -291,6 +291,7 @@
             </form>
         </div>
         <div class="form-container sign-in-container">
+          
             <form action="{{ route('LoginPost') }}" method="POST">
                 @csrf
                 <h1>Sign in</h1>
@@ -302,6 +303,14 @@
                 @error('password')
                 <span class="error"> {{ $message }}</span>
                 @enderror
+                @if (session('error'))
+                
+                <span class="error" style="text-align: center"> {{ session('error') }}</span>
+                @endif
+                @if (session('failed'))
+                
+                <span class="error" style="text-align: center"> {{ session('failed') }}</span>
+                @endif
                 <input {{ old('remember') !== null ? 'checked' : '' }}  type="checkbox" name="remember" id="id">
                 <label for="id">Remember Me</label>
                 <button>Sign In</button>

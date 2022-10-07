@@ -26,6 +26,7 @@ Route::get('/register', function () {
 })->name('RegisterView');
 
 Route::get('/login', [AuthController::class, 'LoginView'])->name('LoginView');
+// Route::post('/login', [AuthController::class, 'LoginPost'])->name('LoginPost')->middleware('throttle:5,6');
 Route::post('/login', [AuthController::class, 'LoginPost'])->name('LoginPost');
 Route::post('/register', [AuthController::class, 'RegisterPost'])->name('RegisterPost');
 
@@ -40,6 +41,8 @@ Route::middleware('auth:web', 'authremember')->group(function () {
     Route::get('/send-money', [PersonalAccountTransactinController::class, 'SendMoneyView'])->name('SendMoneyView');
     Route::post('/send-money', [PersonalAccountTransactinController::class, 'SendMoneyPost'])->name('SendMoneyPost');
 
+    Route::get('/cashout', [PersonalAccountTransactinController::class, 'CashOutView'])->name('CashOutView');
+    Route::post('/cashout', [PersonalAccountTransactinController::class, 'CashOutViewpost'])->name('CashOutViewpost');
 
     Route::get('/dashboard', [FrontendController::class, 'DashboardView'])->name('DashboardView');
     Route::get('/transaction', [FrontendController::class, 'TransactionView'])->name('TransactionView');

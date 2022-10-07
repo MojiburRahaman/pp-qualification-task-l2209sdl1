@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('wallets', function (Blueprint $table) {
+        Schema::create('charge_amounts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->index();
-            $table->float('wallet')->nullable()->default(0);
+            $table->foreignId('user_id');
+            $table->foreignId('transcation_id');
+            $table->string('charge');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('wallets');
+        Schema::dropIfExists('charge_amounts');
     }
 };

@@ -2,7 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Models\AccountType;
+use App\Models\PersonalLimit;
 use Illuminate\Console\Command;
+use PhpParser\Node\Stmt\Foreach_;
 
 class PersonalAccountLimit extends Command
 {
@@ -11,14 +14,14 @@ class PersonalAccountLimit extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'persoanllimit:daily';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Personal User Limit Update Daily';
 
     /**
      * Execute the console command.
@@ -27,6 +30,23 @@ class PersonalAccountLimit extends Command
      */
     public function handle()
     {
+
+        $limit = AccountType::findorfail(2);
+
+        $daily_add_money_limit = $limit->per_day_money_limit;
+        $daily_transfer_money_limit = $limit->tranfer_daily_max;
+        $per_day_cashout_amount_limit = $limit->per_day_cashout_amount_limit;
+
+        $User_limit = PersonalLimit::all();
+
+        foreach ($User_limit as $user) {
+            $user->per_day_money_limit = $daily_add_money_limit;
+            $user->tranfer_daily_max = $daily_transfer_money_limit;
+            $user->per_day_cashout_amount_limit = $per_day_cashout_amount_limit;
+            $user->save();
+        }
+
+        return $this->info('Success');
         return Command::SUCCESS;
     }
 }

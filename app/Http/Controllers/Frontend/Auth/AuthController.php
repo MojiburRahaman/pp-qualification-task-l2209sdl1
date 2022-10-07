@@ -14,6 +14,7 @@ use Illuminate\Validation\Rules;
 
 class AuthController extends Controller
 {
+
     function LoginView()
     {
         $accounts = AccountType::latest()->select('id', 'name')->get();
@@ -63,8 +64,6 @@ class AuthController extends Controller
             $personal->save();
         }
 
-
-
         return response()->json('Registerd Successfully');
     }
     function LoginPost(Request $request)
@@ -74,13 +73,30 @@ class AuthController extends Controller
             'password' => ['required', Rules\Password::defaults()],
         ]);
 
+        $user = User::whereEmail($request->email)->first();
+        if ($user->attempt == 0) {
+            return back()->withError('Failed Attempt You Can Login After 6hours');
+        }
+
         $remember = $request->remember;
 
         if (Auth::attempt($request->only('email', 'password'), $remember)) {
+
+            $user->attempt = 3;
+            $user->save();
+
             return redirect()->route('DashboardView');
         }
-        return back()->with('alert', 'Password Not Match');
+
+        $user->attempt = $user->attempt - 1;
+        $user->save();
+
+        if ($user->attempt == 0) {
+            return back()->with(['alert' => 'Password Not Match', 'error' => 'Failed Attempt You Can Login After 6hours']);
+        }
+        return back()->with(['alert' => 'Password Not Match', 'failed' => 'Failed,You can try only ' . $user->attempt . ' time more']);
     }
+
     function AuthCodeVerify(Request $request)
     {
         if (Auth::viaRemember() || session('remember')) {
@@ -88,10 +104,9 @@ class AuthController extends Controller
         }
         return redirect()->route('DashboardView');
     }
+
     function AuthCodeVerifyPost(Request $request)
     {
-
-
         $request->validate([
             'pin' => ['numeric', 'min:5',]
         ]);

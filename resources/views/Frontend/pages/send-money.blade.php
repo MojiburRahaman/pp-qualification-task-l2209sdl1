@@ -21,7 +21,7 @@
             <form action="{{ route('SendMoneyPost') }}" method="POST">
                 @csrf
                 <div class="form-group">
-                    <label for="email">User Email</label>
+                    <label for="email">Personal User Email</label>
                     <input type="email" name="email" class="form-control" id="email">
                     @error('email')
                         {{ $message }}
@@ -35,7 +35,7 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                   <button type="submit" class="btn btn-success">Add Money</button>
+                   <button type="submit" class="btn btn-success">Send Money</button>
                 </div>
             </form>
         </div>

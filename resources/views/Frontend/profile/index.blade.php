@@ -12,11 +12,6 @@
     </div>
     <!-- Card Body -->
     <div class="card-body">
-        <p class="mb-4">
-            If necessary, you may logout of all of your other browser sessions across all of your devices. If you feel
-            your account has been compromised, you should also update your password.
-        </p>
-        {{-- <div> --}}
             @foreach ($sessions as $session)
 
             <span class="ml-3">
@@ -45,9 +40,6 @@
                 </div>
             </span>
             @endforeach
-
-            {{--
-        </div> --}}
 
     </div>
 </div>
