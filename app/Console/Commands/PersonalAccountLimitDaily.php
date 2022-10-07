@@ -5,16 +5,15 @@ namespace App\Console\Commands;
 use App\Models\AccountType;
 use App\Models\PersonalLimit;
 use Illuminate\Console\Command;
-use PhpParser\Node\Stmt\Foreach_;
 
-class PersonalAccountLimit extends Command
+class PersonalAccountLimitDaily extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'persoanllimit:daily';
+    protected $signature = 'personallimit:daily';
 
     /**
      * The console command description.
@@ -30,7 +29,6 @@ class PersonalAccountLimit extends Command
      */
     public function handle()
     {
-
         $limit = AccountType::findorfail(2);
 
         $daily_add_money_limit = $limit->per_day_money_limit;

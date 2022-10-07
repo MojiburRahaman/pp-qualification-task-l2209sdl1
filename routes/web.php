@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 Route::get('/register', function () {
     return redirect()->route('LoginView');
 })->name('RegisterView')->middleware('guest:web');
 
-Route::get('/login', [AuthController::class, 'LoginView'])->name('LoginView')->middleware('guest:web');
+Route::get('/login', [AuthController::class, 'LoginView'])->name('login')->middleware('guest:web');
 Route::post('/login', [AuthController::class, 'LoginPost'])->name('LoginPost')->middleware('throttle:5,360');
 Route::post('/register', [AuthController::class, 'RegisterPost'])->name('RegisterPost')->middleware('guest:web');
 

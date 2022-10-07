@@ -16,8 +16,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('attempt:failed')->everySixHours();
-        $schedule->command('persoanllimit:daily')->dailyAt('00,00');
-        $schedule->command('persoanllimit:monthly')->monthly();
+        $schedule->command('personallimit:daily')->dailyAt('00,00');
+        $schedule->command('personallimit:monthly')->monthly();
     }
 
     /**

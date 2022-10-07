@@ -14,7 +14,7 @@ class PersonalAccountLimit extends Command
      *
      * @var string
      */
-    protected $signature = 'persoanllimit:monthly';
+    protected $signature = 'personallimit:monthly';
 
     /**
      * The console command description.

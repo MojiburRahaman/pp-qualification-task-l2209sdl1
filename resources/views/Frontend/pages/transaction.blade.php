@@ -14,9 +14,9 @@
                         <th>SL</th>
                         <th>Transaction Id</th>
                         <th class="text-center">Amount</th>
-                        <th>Email</th>
-                        <th class="text-center">Action</th>
+                        <th>Account</th>
                         <th>Method</th>
+                        <th class="text-center">Action</th>
                         <th>Time</th>
                     </tr>
                 </thead>
@@ -28,23 +28,14 @@
                         <td>{{ $Transaction->transcation_id }}</td>
                         <td class="text-center">
                             @if ($Transaction->status == 1)
-                            <span class="text-success">{{ $Transaction->amount }}</span>
+                            <span class="text-success">+ {{ $Transaction->amount }}</span>
                             @else
-                            <span class="text-danger">{{ $Transaction->amount }}</span>
+                            <span class="text-danger">- {{ $Transaction->amount }}</span>
 
                             @endif
 
                         </td>
                         <td>{{ $Transaction->from_or_to_email }}</td>
-                        <td class="text-center">
-
-                            @if ($Transaction->status == 1)
-                            <a class="btn btn-outline-success">In</a>
-
-                            @else
-                            <a class="btn btn-outline-danger">Out</a>
-                            @endif
-                        </td>
                         <td>
                             @if ($Transaction->trans_type == 1)
                             Send Money
@@ -56,6 +47,16 @@
                             Add Money
                             @endif
                         </td>
+                        <td class="text-center">
+
+                            @if ($Transaction->status == 1)
+                            <a class="btn btn-outline-success">In</a>
+
+                            @else
+                            <a class="btn btn-outline-danger">Out</a>
+                            @endif
+                        </td>
+                        
                         <td>
                             {{ $Transaction->created_at->diffForhumans() }}
                         </td>

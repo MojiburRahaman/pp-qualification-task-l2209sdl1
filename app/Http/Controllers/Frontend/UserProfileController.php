@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Frontend;
+
 use App\Http\Controllers\Controller;
 use App\Models\Session as SessionModel;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
 class UserProfileController extends Controller

@@ -18,9 +18,7 @@ class PersonalAccountMiddleware
     {
 
         abort_if(auth('web')->user()->account_id == 1,'404');
-        // if (auth('web')->user()->account_id == ) {
-        //     # code...
-        // }
+    
         return $next($request);
     }
 }
